@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const  validator  = require("validator");
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -21,10 +21,14 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      validator(val) {
+        if (validator.isStrongPassword(val)) {
+          throw new Error("Password is not strong!");
+        }
+      },
     },
     gender: {
       type: String,
-      required: true,
       validate(val) {
         if (!["male", "female", "others"].includes(val)) {
           throw new Error("Select gender either male,female or others");
@@ -33,7 +37,6 @@ const userSchema = new mongoose.Schema(
     },
     age: {
       type: Number,
-      required: true,
       min: 18,
       max: 85,
     },
