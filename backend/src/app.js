@@ -4,7 +4,6 @@ const User = require("./models/user.model");
 const { validateSignup } = require("./utils/validate");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
 const { userAuth } = require("./Auth/auth");
 
 const app = express();
@@ -38,11 +37,11 @@ app.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("User doesn't exit kindly create account.");
     }
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await user.verifyJWT(password);
     if (!isValidPassword) {
       throw new Error("You have entered the wrong password !");
     }
-    const token = await jwt.sign({ _id: user._id }, "ashritj2oss");
+    const token = await user.getJWT();
     console.log(token);
     // res.cookie("token", "ravi");
     res.cookie("token", token);
