@@ -12,6 +12,9 @@ This document provides an overview of the core API endpoints for user authentica
 ### POST `/api/v1/signup`
 - Description: Register a new user account.
 
+### POST `api/v1/logout`
+- Description : for logout the user
+
 ---
 
 ## Profile Management
