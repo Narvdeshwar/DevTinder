@@ -19,7 +19,7 @@ This document provides an overview of the core API endpoints for user authentica
 
 ## Profile Management
 
-### GET `/api/v1/profile`
+### GET `/api/v1/profile/view`
 - Description: Retrieve the authenticated user's profile information.
 
 ### PUT `/api/v1/profile/update`
