@@ -6,7 +6,7 @@ const userAuth = async (req, res, next) => {
     // 1. Extract token from cookies
     const { token } = req.cookies;
     if (!token) {
-      return res.status(401).send("Token missing, please login again");
+      return res.status(401).send("Login to see your details");
     }
 
     // 2. Verify token
