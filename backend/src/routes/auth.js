@@ -14,7 +14,7 @@ authRouter.post("/login", async (req, res) => {
     if (!user) {
       throw new Error("User doesn't exit kindly create account.");
     }
-    const isValidPassword = await user.verifyJWT(password);
+    const isValidPassword = await user.verifyPassword(password);
     if (!isValidPassword) {
       throw new Error("You have entered the wrong password !");
     }

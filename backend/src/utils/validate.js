@@ -22,4 +22,15 @@ function validateProfileUpdate(data) {
   ];
   return Object.keys(data).every((key) => allowedFields.includes(key));
 }
-module.exports = { validateSignup, validateProfileUpdate };
+
+function validateStrongPassword(newPassword) {
+  if (!validator.isStrongPassword(newPassword)) {
+    throw new Error("Password is not strong");
+  }
+}
+
+module.exports = {
+  validateSignup,
+  validateProfileUpdate,
+  validateStrongPassword,
+};
