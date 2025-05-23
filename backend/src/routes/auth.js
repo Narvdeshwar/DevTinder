@@ -22,7 +22,13 @@ authRouter.post("/login", async (req, res) => {
     console.log(token);
     // res.cookie("token", "ravi");
     res.cookie("token", token);
-    res.send("User logged in successfully");
+    res
+      .status(200)
+      .json({
+        message: "User logged in successfully",
+        status: true,
+        data: user,
+      });
   } catch (error) {
     res.status(401).send(error.message);
   }
