@@ -42,6 +42,12 @@ This document provides an overview of the core API endpoints for user authentica
 
 ### POST `/request/send/intersted/:userID`
 
+### POST `/request/review/accepted/:userId`
+
+## Request Management
+
+### GET `/request/connection/pending`
+
 ---
 
 > All profile-related routes require authentication via a valid token.
