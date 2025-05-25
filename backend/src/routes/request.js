@@ -2,6 +2,7 @@ const express = require("express");
 const { userAuth } = require("../auth/auth");
 const ConnectionRequest = require("../models/requestconnection.model.js");
 const User = require("../models/user.model.js");
+const { mongoose } = require("mongoose");
 const RequestRouter = express.Router();
 
 RequestRouter.post("/send/:status/:userId", userAuth, async (req, res) => {
@@ -43,11 +44,42 @@ RequestRouter.post("/send/:status/:userId", userAuth, async (req, res) => {
       fromUserId,
       status,
     });
-
     await connectionRequest.save();
     res.send(connectionRequest);
   } catch (error) {
     res.status(401).json({ message: error.message });
+  }
+});
+
+RequestRouter.post("/review/:status/:userId", userAuth, async (req, res) => {
+  try {
+    // fetching data from the url
+    const { status, userId } = req?.params;
+    // data of loggedin user
+    const loggedInUser = req.user;
+
+    // checking whether the review is accepted or ignored
+    const isValidStatus = ["accepted", "ignored"];
+    if (!isValidStatus.includes(status)) throw new Error("status is not valid");
+
+    // checking whether the requested is intersted
+    const conRequest = await ConnectionRequest.findOne({
+      toUserId: loggedInUser._id,
+      fromUserId: userId,
+      status: "interested",
+    });
+    if (!conRequest) throw new Error("connection request doesn't exits.");
+
+    conRequest.status = status;
+    const data = await conRequest.save();
+
+    res.status(200).json({
+      message: "request accepted successfully",
+      status: true,
+      data: data,
+    });
+  } catch (error) {
+    res.status(404).json({ status: false, message: error.message });
   }
 });
 
